@@ -4,10 +4,10 @@
         <td>{{ tarjeta.numeroTarjeta }}</td>
         <td>{{ tarjeta.fechaExpiracion }}</td>
         <td>
-            <i class="bi bi-pencil-fill" style="cursor: pointer;"></i>
+            <i class="bi bi-pencil-fill" (click)="editar(tarjeta)" style="cursor: pointer;"></i>
         </td>
         <td>
-            <i class="bi bi-trash3-fill" style="cursor: pointer;"></i>
+            <i class="bi bi-trash3-fill" (click)="eliminarTarjeta(tarjeta.id)" style="cursor: pointer;"></i>
         </td>
     </tr>
 </table>
