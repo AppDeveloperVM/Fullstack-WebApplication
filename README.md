@@ -1,6 +1,8 @@
-# FullWebApp
+# FullStack WebApplication
 
-This project was generated with 
+### Angular 14 & MS SQL Server
+
+This project was generated with :
 
 ## FrontEnd
 - [Angular CLI](https://github.com/angular/angular-cli) version 14.2.6.
