@@ -14,7 +14,7 @@ export class TarjetaCreditoComponent implements OnInit, OnDestroy {
   form: FormGroup;
   suscription!: Subscription;
   tarjeta : TarjetaCredito = {};
-  idTarjeta = 0;
+  idTarjeta = undefined;
 
   constructor(private fb: FormBuilder, private tarjetaService : TarjetaService,private toastr : ToastrService) {
     this.form = this.fb.group({
@@ -42,41 +42,39 @@ export class TarjetaCreditoComponent implements OnInit, OnDestroy {
   }
 
   guardarTarjeta(){
-    if(this.idTarjeta === 0) {
-      this.agregar();
+ 
+    const tarjeta : TarjetaCredito = {
+      titular: this.form.get('titular')?.value,
+      numeroTarjeta: this.form.get('numeroTarjeta')?.value,
+      fechaExpiracion: this.form.get('fechaExpiracion')?.value,
+      cvv: this.form.get('cvv')?.value,
+    }
+
+    if(this.idTarjeta == undefined){
+      //Agregamos una nueva tarjeta
+      this.tarjetaService.guardarTarjeta(tarjeta).subscribe((data) => {
+        this.toastr.success("Registro Agregado",'La tarjeta fue agregada');
+        this.tarjetaService.obtenerTarjetas();
+        this.form.reset();
+      }, error => {
+        this.toastr.error("Ocurrió un error",'Error al añadir nueva tarjeta.');
+        console.log(error);
+      });
     } else {
-      this.editar();
-    } 
-  }
-
-  agregar() {
-    const tarjeta : TarjetaCredito = {
-      titular: this.form.get('titular')?.value,
-      numeroTarjeta: this.form.get('numeroTarjeta')?.value,
-      fechaExpiracion: this.form.get('fechaExpiracion')?.value,
-      cvv: this.form.get('cvv')?.value,
+      tarjeta.id = this.idTarjeta;
+      //Editamos tarjeta
+      this.tarjetaService.actualizarTarjeta(this.idTarjeta, tarjeta).subscribe( data => {
+        this.toastr.info("Registro Actualizado",'La tarjeta fue actualizada');
+        this.tarjetaService.obtenerTarjetas();
+        this.form.reset();
+        this.idTarjeta = undefined;
+      }, error => {
+        this.toastr.error("Ocurrió un error",'Error al editar tarjeta.');
+        console.log(error);
+      });
     }
-    this.tarjetaService.guardarTarjeta(tarjeta).subscribe((data) => {
-      this.toastr.success("Registro Agregado",'La tarjeta fue agregada');
-      this.tarjetaService.obtenerTarjetas();
-      this.form.reset();
-    });
-  }
 
-  editar() {
-    const tarjeta : TarjetaCredito = {
-      id: this.tarjeta.id,
-      titular: this.form.get('titular')?.value,
-      numeroTarjeta: this.form.get('numeroTarjeta')?.value,
-      fechaExpiracion: this.form.get('fechaExpiracion')?.value,
-      cvv: this.form.get('cvv')?.value,
-    }
-    this.tarjetaService.actualizarTarjeta(this.idTarjeta, tarjeta).subscribe( data => {
-      this.toastr.info("Registro Actualizado",'La tarjeta fue actualizada');
-      this.tarjetaService.obtenerTarjetas();
-      this.form.reset();
-      this.idTarjeta = 0;
-    })
+
   }
 
   ngOnDestroy(): void {
