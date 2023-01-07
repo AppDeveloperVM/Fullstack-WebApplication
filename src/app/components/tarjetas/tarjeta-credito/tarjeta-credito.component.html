@@ -1,1 +1,49 @@
-<p>tarjeta-credito works!</p>
+<form [formGroup]="form" (ngSubmit)="guardarTarjeta()">
+    <div class="form-group">
+        <div class="input-group m-2">
+            <div class="input-group-prepend">
+                <div class="input-group-text bg-white">
+                    <i class="bi bi-person-circle" [ngClass]="{ 'green-icon': (this.form.controls['titular'].touched && this.form.controls['titular'].valid ), 'red-icon' : (this.form.controls['titular'].touched && this.form.controls['titular'].invalid ) }"></i>
+                </div>
+            </div>
+            <input formControlName="titular" type="text" class="form-control" placeholder="Titular">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="input-group m-2">
+            <div class="input-group-prepend">
+                <div class="input-group-text bg-white">
+                    <i class="bi bi-credit-card-fill" [ngClass]="{ 'green-icon': (this.form.controls['titular'].touched && this.form.controls['numeroTarjeta'].valid ), 'red-icon' : (this.form.controls['numeroTarjeta'].touched && this.form.controls['numeroTarjeta'].invalid ) }"></i>
+                </div>
+            </div>
+            <input formControlName="numeroTarjeta" type="text" class="form-control" maxlength="16" placeholder="Numero de Tarjeta">
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-md-7">
+            <div class="input-group m-2">
+                <div class="input-group-prepend">
+                    <div class="input-group-text bg-white">
+                        <i class="bi bi-calendar-event" [ngClass]="{ 'green-icon': (this.form.controls['fechaExpiracion'].touched && this.form.controls['fechaExpiracion'].valid ), 'red-icon' : (this.form.controls['fechaExpiracion'].touched && this.form.controls['fechaExpiracion'].invalid ) }"></i>
+                    </div>
+                </div>
+                <input formControlName="fechaExpiracion" type="text" class="form-control" maxlength="5" placeholder="DD/MM">
+            </div>
+        </div>
+        <div class="form-group col-md-5">
+            <div class="input-group m-2">
+                <div class="input-group-prepend">
+                    <div class="input-group-text bg-white">
+                        <i class="bi bi-key-fill" [ngClass]="{ 'green-icon': (this.form.controls['cvv'].touched && this.form.controls['cvv'].valid ), 'red-icon' : (this.form.controls['cvv'].touched && this.form.controls['cvv'].invalid ) }"></i>
+                    </div>
+                </div>
+                <input formControlName="cvv" type="text" class="form-control" placeholder="CVV" maxlength="3">
+            </div>
+        </div>
+    </div>
+    <div class="form-group m-2 d-grid">
+        <button class="btn btn-success btn-lg btn-block" [disabled]="!form.valid" type="submit"><i class="bi bi-database-fill"></i> Aceptar</button>
+    </div>
+
+</form>
