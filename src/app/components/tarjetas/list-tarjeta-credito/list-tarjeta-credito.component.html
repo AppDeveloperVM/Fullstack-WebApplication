@@ -1,1 +1,13 @@
-<p>list-tarjeta-credito works!</p>
+<table class="table table-striped">
+    <tr *ngFor="let tarjeta of tarjetaService.list">
+        <td>{{ tarjeta.titular }}</td>
+        <td>{{ tarjeta.numeroTarjeta }}</td>
+        <td>{{ tarjeta.fechaExpiracion }}</td>
+        <td>
+            <i class="bi bi-pencil-fill" style="cursor: pointer;"></i>
+        </td>
+        <td>
+            <i class="bi bi-trash3-fill" style="cursor: pointer;"></i>
+        </td>
+    </tr>
+</table>
