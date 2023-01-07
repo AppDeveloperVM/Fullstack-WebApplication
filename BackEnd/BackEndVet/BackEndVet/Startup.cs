@@ -30,6 +30,11 @@ namespace BackEndVet
             services.AddDbContext<AplicationDbContext>(options =>
               options.UseSqlServer(Configuration.GetConnectionString("DevConnection"))
             );
+            services.AddCors(options => options.AddPolicy("AllowWebApp",
+              builder => builder.AllowAnyOrigin()
+                .AllowAnyHeader()
+                .AllowAnyMethod()
+            ));
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
@@ -47,6 +52,7 @@ namespace BackEndVet
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "BackEndVet v1"));
             }
 
+            app.UseCors("AllowWebApp");
             app.UseHttpsRedirection();
 
             app.UseRouting();
